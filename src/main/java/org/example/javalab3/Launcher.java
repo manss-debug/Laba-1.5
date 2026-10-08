@@ -5,20 +5,30 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.example.javalab3.controller.BookEditDialogController;
 import org.example.javalab3.controller.BookOverviewController;
 import org.example.javalab3.model.Author;
 import org.example.javalab3.model.Book;
 
+import java.io.IOException;
+
 public class Launcher extends Application {
+
+    private Stage primaryStage;
 
     private final ObservableList<Book> bookData =
             FXCollections.observableArrayList();
 
+    public Launcher() {
+        createBooks();
+    }
+
     @Override
     public void start(Stage stage) throws Exception {
-
-        createBooks();
+        this.primaryStage = stage;
 
         FXMLLoader loader = new FXMLLoader(
                 Launcher.class.getResource(
@@ -26,16 +36,16 @@ public class Launcher extends Application {
                 )
         );
 
-        Scene scene = new Scene(loader.load());
+        AnchorPane root = loader.load();
 
-        BookOverviewController controller =
-                loader.getController();
-
+        BookOverviewController controller = loader.getController();
         controller.setMainApp(this);
 
-        stage.setTitle("Электронный каталог книг");
-        stage.setScene(scene);
-        stage.show();
+        Scene scene = new Scene(root);
+
+        primaryStage.setTitle("Электронный каталог книг");
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
     private void createBooks() {
@@ -125,118 +135,98 @@ public class Launcher extends Application {
         );
 
         bookData.addAll(
-                new Book(
-                        "Преступление и наказание",
-                        "Твёрдый",
-                        "Эксмо",
-                        2020,
-                        "Роман",
-                        dostoevsky
-                ),
+                new Book("Преступление и наказание", "Твёрдый",
+                        "Эксмо", 2020, "Роман", dostoevsky),
 
-                new Book(
-                        "Идиот",
-                        "Твёрдый",
-                        "АСТ",
-                        2019,
-                        "Роман",
-                        dostoevsky
-                ),
+                new Book("Идиот", "Твёрдый",
+                        "АСТ", 2019, "Роман", dostoevsky),
 
-                new Book(
-                        "Война и мир",
-                        "Твёрдый",
-                        "Азбука",
-                        2021,
-                        "Роман",
-                        tolstoy
-                ),
+                new Book("Война и мир", "Твёрдый",
+                        "Азбука", 2021, "Роман", tolstoy),
 
-                new Book(
-                        "Анна Каренина",
-                        "Мягкий",
-                        "Эксмо",
-                        2020,
-                        "Роман",
-                        tolstoy
-                ),
+                new Book("Анна Каренина", "Мягкий",
+                        "Эксмо", 2020, "Роман", tolstoy),
 
-                new Book(
-                        "Евгений Онегин",
-                        "Твёрдый",
-                        "Азбука",
-                        2018,
-                        "Роман",
-                        pushkin
-                ),
+                new Book("Евгений Онегин", "Твёрдый",
+                        "Азбука", 2018, "Роман", pushkin),
 
-                new Book(
-                        "Мастер и Маргарита",
-                        "Твёрдый",
-                        "АСТ",
-                        2022,
-                        "Роман",
-                        bulgakov
-                ),
+                new Book("Мастер и Маргарита", "Твёрдый",
+                        "АСТ", 2022, "Роман", bulgakov),
 
-                new Book(
-                        "Вишнёвый сад",
-                        "Мягкий",
-                        "Эксмо",
-                        2017,
-                        "Пьеса",
-                        chekhov
-                ),
+                new Book("Вишнёвый сад", "Мягкий",
+                        "Эксмо", 2017, "Пьеса", chekhov),
 
-                new Book(
-                        "Мёртвые души",
-                        "Твёрдый",
-                        "Азбука",
-                        2021,
-                        "Сатира",
-                        gogol
-                ),
+                new Book("Мёртвые души", "Твёрдый",
+                        "Азбука", 2021, "Сатира", gogol),
 
-                new Book(
-                        "Отцы и дети",
-                        "Мягкий",
-                        "АСТ",
-                        2019,
-                        "Роман",
-                        turgenev
-                ),
+                new Book("Отцы и дети", "Мягкий",
+                        "АСТ", 2019, "Роман", turgenev),
 
-                new Book(
-                        "Три товарища",
-                        "Твёрдый",
-                        "Эксмо",
-                        2020,
-                        "Роман",
-                        remark
-                ),
+                new Book("Три товарища", "Твёрдый",
+                        "Эксмо", 2020, "Роман", remark),
 
-                new Book(
-                        "Гарри Поттер и философский камень",
-                        "Твёрдый",
-                        "Махаон",
-                        2021,
-                        "Фэнтези",
-                        rowling
-                ),
+                new Book("Гарри Поттер и философский камень", "Твёрдый",
+                        "Махаон", 2021, "Фэнтези", rowling),
 
-                new Book(
-                        "Зелёная миля",
-                        "Твёрдый",
-                        "АСТ",
-                        2022,
-                        "Фантастика",
-                        king
-                )
+                new Book("Зелёная миля", "Твёрдый",
+                        "АСТ", 2022, "Фантастика", king),
+
+                new Book("Старик и море", "Мягкий",
+                        "АСТ", 2018, "Повесть", hemingway),
+
+                new Book("Игра престолов", "Твёрдый",
+                        "АСТ", 2020, "Фэнтези", martin)
         );
     }
 
     public ObservableList<Book> getBookData() {
         return bookData;
+    }
+
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
+    public boolean showBookEditDialog(Book book) {
+
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    Launcher.class.getResource(
+                            "/org/example/javalab3/BookEditDialog.fxml"
+                    )
+            );
+
+            AnchorPane page = loader.load();
+
+            Stage dialogStage = new Stage();
+
+            dialogStage.setTitle(
+                    book == null ? "Добавление книги" : "Изменение книги"
+            );
+
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            BookEditDialogController controller =
+                    loader.getController();
+
+            controller.setDialogStage(dialogStage);
+
+            if (book != null) {
+                controller.setBook(book);
+            }
+
+            dialogStage.showAndWait();
+
+            return controller.isOkClicked();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public static void main(String[] args) {

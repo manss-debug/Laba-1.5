@@ -12,7 +12,7 @@ public class Book {
     private final StringProperty publisher;
     private final IntegerProperty publicationYear;
     private final StringProperty genre;
-    private final Author author;
+    private Author author;
 
     public Book(
             String title,
@@ -28,6 +28,11 @@ public class Book {
         this.publicationYear = new SimpleIntegerProperty(publicationYear);
         this.genre = new SimpleStringProperty(genre);
         this.author = author;
+    }
+
+    public Book() {
+        this("", "", "", 2026, "",
+                new Author("", "", "", 0.0));
     }
 
     public String getTitle() {
@@ -92,5 +97,9 @@ public class Book {
 
     public Author getAuthor() {
         return author;
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
     }
 }

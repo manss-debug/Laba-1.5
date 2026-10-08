@@ -28,12 +28,20 @@ public class Author {
         return fullName.get();
     }
 
+    public void setFullName(String fullName) {
+        this.fullName.set(fullName);
+    }
+
     public StringProperty fullNameProperty() {
         return fullName;
     }
 
     public String getPhone() {
         return phone.get();
+    }
+
+    public void setPhone(String phone) {
+        this.phone.set(phone);
     }
 
     public StringProperty phoneProperty() {
@@ -44,12 +52,20 @@ public class Author {
         return email.get();
     }
 
+    public void setEmail(String email) {
+        this.email.set(email);
+    }
+
     public StringProperty emailProperty() {
         return email;
     }
 
     public double getRating() {
         return rating.get();
+    }
+
+    public void setRating(double rating) {
+        this.rating.set(rating);
     }
 
     public DoubleProperty ratingProperty() {

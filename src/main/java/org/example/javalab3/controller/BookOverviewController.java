@@ -1,6 +1,8 @@
 package org.example.javalab3.controller;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -61,31 +63,28 @@ public class BookOverviewController {
     private void initialize() {
 
         titleColumn.setCellValueFactory(
-                cellData ->
-                        cellData.getValue().titleProperty()
+                cellData -> cellData.getValue().titleProperty()
         );
 
         bindingColumn.setCellValueFactory(
-                cellData ->
-                        cellData.getValue().bindingProperty()
+                cellData -> cellData.getValue().bindingProperty()
         );
 
         publisherColumn.setCellValueFactory(
-                cellData ->
-                        cellData.getValue().publisherProperty()
+                cellData -> cellData.getValue().publisherProperty()
         );
 
         yearColumn.setCellValueFactory(
-                cellData ->
-                        cellData.getValue()
-                                .publicationYearProperty()
-                                .asObject()
+                cellData -> cellData.getValue()
+                        .publicationYearProperty()
+                        .asObject()
         );
 
         genreColumn.setCellValueFactory(
-                cellData ->
-                        cellData.getValue().genreProperty()
+                cellData -> cellData.getValue().genreProperty()
         );
+
+        showBookDetails(null);
 
         bookTable.getSelectionModel()
                 .selectedItemProperty()
@@ -102,25 +101,140 @@ public class BookOverviewController {
 
     private void showBookDetails(Book book) {
 
-        if (book == null) {
-            return;
+        if (book != null) {
+
+            titleLabel.setText(book.getTitle());
+            bindingLabel.setText(book.getBinding());
+            publisherLabel.setText(book.getPublisher());
+            yearLabel.setText(
+                    String.valueOf(book.getPublicationYear())
+            );
+            genreLabel.setText(book.getGenre());
+
+            Author author = book.getAuthor();
+
+            authorNameLabel.setText(author.getFullName());
+            authorPhoneLabel.setText(author.getPhone());
+            authorEmailLabel.setText(author.getEmail());
+            authorRatingLabel.setText(
+                    String.valueOf(author.getRating())
+            );
+
+        } else {
+
+            titleLabel.setText("");
+            bindingLabel.setText("");
+            publisherLabel.setText("");
+            yearLabel.setText("");
+            genreLabel.setText("");
+            authorNameLabel.setText("");
+            authorPhoneLabel.setText("");
+            authorEmailLabel.setText("");
+            authorRatingLabel.setText("");
         }
+    }
 
-        titleLabel.setText(book.getTitle());
-        bindingLabel.setText(book.getBinding());
-        publisherLabel.setText(book.getPublisher());
-        yearLabel.setText(
-                String.valueOf(book.getPublicationYear())
+    @FXML
+    private void handleNewBook() {
+
+        Book tempBook = new Book();
+
+        boolean okClicked =
+                mainApp.showBookEditDialog(tempBook);
+
+        if (okClicked) {
+            mainApp.getBookData().add(tempBook);
+
+            bookTable.getSelectionModel()
+                    .select(tempBook);
+        }
+    }
+
+    @FXML
+    private void handleEditBook() {
+
+        Book selectedBook =
+                bookTable.getSelectionModel()
+                        .getSelectedItem();
+
+        if (selectedBook != null) {
+
+            boolean okClicked =
+                    mainApp.showBookEditDialog(selectedBook);
+
+            if (okClicked) {
+                showBookDetails(selectedBook);
+                bookTable.refresh();
+            }
+
+        } else {
+
+            showNoSelectionAlert(
+                    "Не выбрана книга",
+                    "Выберите книгу в таблице."
+            );
+        }
+    }
+
+    @FXML
+    private void handleDeleteBook() {
+
+        int selectedIndex =
+                bookTable.getSelectionModel()
+                        .getSelectedIndex();
+
+        if (selectedIndex >= 0) {
+
+            Alert confirmation = new Alert(
+                    Alert.AlertType.CONFIRMATION
+            );
+
+            confirmation.initOwner(
+                    mainApp.getPrimaryStage()
+            );
+
+            confirmation.setTitle("Удаление книги");
+            confirmation.setHeaderText(
+                    "Удалить выбранную книгу?"
+            );
+            confirmation.setContentText(
+                    "Книга будет удалена из каталога."
+            );
+
+            if (confirmation.showAndWait()
+                    .orElse(ButtonType.CANCEL)
+                    == ButtonType.OK) {
+
+                bookTable.getItems()
+                        .remove(selectedIndex);
+            }
+
+        } else {
+
+            showNoSelectionAlert(
+                    "Не выбрана книга",
+                    "Выберите книгу в таблице."
+            );
+        }
+    }
+
+    private void showNoSelectionAlert(
+            String title,
+            String message
+    ) {
+
+        Alert alert = new Alert(
+                Alert.AlertType.WARNING
         );
-        genreLabel.setText(book.getGenre());
 
-        Author author = book.getAuthor();
-
-        authorNameLabel.setText(author.getFullName());
-        authorPhoneLabel.setText(author.getPhone());
-        authorEmailLabel.setText(author.getEmail());
-        authorRatingLabel.setText(
-                String.valueOf(author.getRating())
+        alert.initOwner(
+                mainApp.getPrimaryStage()
         );
+
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+
+        alert.showAndWait();
     }
 }

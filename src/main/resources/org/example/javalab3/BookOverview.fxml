@@ -161,9 +161,14 @@
                       layoutX="20.0"
                       layoutY="500.0">
 
-                    <Button text="Добавить"/>
-                    <Button text="Изменить"/>
-                    <Button text="Удалить"/>
+                    <Button text="Добавить"
+                            onAction="#handleNewBook"/>
+
+                    <Button text="Изменить"
+                            onAction="#handleEditBook"/>
+
+                    <Button text="Удалить"
+                            onAction="#handleDeleteBook"/>
 
                 </HBox>
 
