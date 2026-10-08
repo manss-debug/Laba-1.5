@@ -12,16 +12,16 @@ public class Book {
     private final StringProperty publisher;
     private final IntegerProperty publicationYear;
     private final StringProperty genre;
-
     private final Author author;
 
-    public Book(String title,
-                String binding,
-                String publisher,
-                int publicationYear,
-                String genre,
-                Author author) {
-
+    public Book(
+            String title,
+            String binding,
+            String publisher,
+            int publicationYear,
+            String genre,
+            Author author
+    ) {
         this.title = new SimpleStringProperty(title);
         this.binding = new SimpleStringProperty(binding);
         this.publisher = new SimpleStringProperty(publisher);
@@ -34,12 +34,20 @@ public class Book {
         return title.get();
     }
 
+    public void setTitle(String title) {
+        this.title.set(title);
+    }
+
     public StringProperty titleProperty() {
         return title;
     }
 
     public String getBinding() {
         return binding.get();
+    }
+
+    public void setBinding(String binding) {
+        this.binding.set(binding);
     }
 
     public StringProperty bindingProperty() {
@@ -50,6 +58,10 @@ public class Book {
         return publisher.get();
     }
 
+    public void setPublisher(String publisher) {
+        this.publisher.set(publisher);
+    }
+
     public StringProperty publisherProperty() {
         return publisher;
     }
@@ -58,12 +70,20 @@ public class Book {
         return publicationYear.get();
     }
 
+    public void setPublicationYear(int publicationYear) {
+        this.publicationYear.set(publicationYear);
+    }
+
     public IntegerProperty publicationYearProperty() {
         return publicationYear;
     }
 
     public String getGenre() {
         return genre.get();
+    }
+
+    public void setGenre(String genre) {
+        this.genre.set(genre);
     }
 
     public StringProperty genreProperty() {
